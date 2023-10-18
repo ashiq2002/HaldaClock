@@ -59,8 +59,7 @@ class _CircularSliderState extends State<CircularSlider> {
               var angle = currentAngle +
                   toAngle(_currentDragOffset, center) -
                   toAngle(previousOffset, center);
-              currentAngle = normalizeAngle(angle);
-              widget.onAngleChanged(currentAngle);
+
               setState(() {});
             },
             child: const _Knob(),

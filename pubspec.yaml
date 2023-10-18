@@ -38,6 +38,7 @@ dependencies:
   progressive_time_picker: ^0.0.4
   flutter_neumorphic: ^3.2.0
   percent_indicator: ^4.2.3
+  syncfusion_flutter_gauges: ^23.1.40
 
 dev_dependencies:
   flutter_test:

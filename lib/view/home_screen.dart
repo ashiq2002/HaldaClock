@@ -1,15 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:progress_indicator/utils/progressive_clock_util.dart';
-
-double radius = 135;
-double strokeWidth = 30;
 
 class HomeScreen extends StatefulWidget {
-  final ValueChanged<double> onAngleChanged;
-
-  const HomeScreen({super.key, required this.onAngleChanged});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -19,23 +13,10 @@ class _HomeScreenState extends State<HomeScreen> {
   double draggableButtonAngle = -pi / 2; // Initial angle (starts at 90 degrees)
   double arcAngle = 1.0;
 
-  final Offset _currentDragOffset = Offset.zero;
-
-  double currentAngle = 0;
-
-  double startAngle = toRadian(90);
-
-  double totalAngle = toRadian(360);
-
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-    Size canvasSize = Size(screenSize.width, screenSize.width - 35);
-    Offset center = canvasSize.center(Offset.zero);
-    Offset knobPos = toPolar(center - Offset(strokeWidth, strokeWidth),
-        currentAngle + startAngle, radius);
-
-    print("rebuild");
+    final size = MediaQuery.of(context).size;
+    debugPrint("rebuild");
 
     return Scaffold(
       appBar: AppBar(
@@ -51,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Center(
           child: Stack(alignment: Alignment.center, children: [
         CustomPaint(
-          size: Size(200, 200),
+          size: const Size(200, 200),
           painter: ProgressiveClock(arcAngle),
         ),
         const Column(
@@ -74,12 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         Draggable(
-          onDraggableCanceled: (velocity, offset) {
-            print("Velocity : $velocity");
-            print("Offset : ${offset.direction}");
-          },
           allowedButtonsFilter: (filter) {
-            print("filter: $filter");
+            debugPrint("filter: $filter");
             return true;
           },
           onDragUpdate: (details) {
@@ -87,8 +64,8 @@ class _HomeScreenState extends State<HomeScreen> {
             setState(() {
               // Calculate the angle of the draggable button based on drag movement
               final newPosition = details.localPosition;
-              final centerX = screenSize.width / 2;
-              final centerY = screenSize.height / 2;
+              final centerX = size.width / 2;
+              final centerY = size.height / 2;
 
               draggableButtonAngle =
                   atan2(newPosition.dy - centerY, newPosition.dx - centerX);
@@ -103,9 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
             //print("Angle : $angle");
           },
           feedback: const SizedBox(),
-
           child: CustomPaint(
-            size: Size(screenSize.height, screenSize.width), // Set the desired size
+            size: Size(size.height, size.width), // Set the desired size
             painter: ArcWithCircularDraggablePainter(draggableButtonAngle),
           ),
         ),
@@ -175,8 +151,12 @@ class ProgressiveClock extends CustomPainter {
 
     double currentAngle =
         angle * (2 * pi) / 100; //progressive arc angle which is mutable
+    
 
-    print("Current Angle : ${angle}");
+    //calculate the current arc angle
+    // double currentAngle = (angle % 360 + 360) % 360;
+
+    debugPrint("Current Angle : $angle");
 
     //circle
     final arcRect =
@@ -243,7 +223,7 @@ class ArcWithCircularDraggablePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     double angle1 = 2 * pi * (angle / 10);
 
-    print("Button Angle : ${angle1}");
+    debugPrint("Button Angle : $angle1");
 
     final circlePaint = Paint()
       ..color = Colors.white

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:progress_indicator/view/home_screen.dart';
-import 'package:progress_indicator/view/test.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +19,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const TestScreen(),
+      home: const HomeScreen(),
     );
   }
 }
