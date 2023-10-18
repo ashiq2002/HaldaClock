@@ -151,7 +151,6 @@ class ProgressiveClock extends CustomPainter {
 
     double currentAngle =
         angle * (2 * pi) / 100; //progressive arc angle which is mutable
-    
 
     //calculate the current arc angle
     // double currentAngle = (angle % 360 + 360) % 360;
